@@ -9,11 +9,16 @@ import (
 	"github.com/ChimeraCoder/anaconda"
 )
 
+type SearchCriteriaStruct struct {
+	ScreenNames   []string `json:"screen_names"`
+	SearchPattern string   `json:"searchPattern"`
+}
 type Configuration struct {
-	ConsumerKey    string `json:"consumer-key"`
-	ConsumerSecret string `json:"consumer-secret"`
-	AccessToken    string `json:"access-token"`
-	AccessSecrect  string `json:"access-secret"`
+	ConsumerKey    string               `json:"consumer-key"`
+	ConsumerSecret string               `json:"consumer-secret"`
+	AccessToken    string               `json:"access-token"`
+	AccessSecrect  string               `json:"access-secret"`
+	SearchCriteria SearchCriteriaStruct `json:"searchCriteria"`
 }
 
 var config Configuration
@@ -34,11 +39,12 @@ func main() {
 	anaconda.SetConsumerSecret(config.ConsumerSecret)
 	api := anaconda.NewTwitterApi(config.AccessToken, config.AccessSecrect)
 	v := url.Values{}
-	v.Set("screen_name", "codingvelocity")
-	timeline, err := api.GetUserTimeline(v)
-	if err != nil {
-		panic(err)
+	for _, screenName := range config.SearchCriteria.ScreenNames {
+		v.Set("screen_name", screenName)
+		timeline, err := api.GetUserTimeline(v)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(SearchText(timeline, config.SearchCriteria.SearchPattern))
 	}
-
-	fmt.Print(timeline)
 }
