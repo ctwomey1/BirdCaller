@@ -3,7 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"os"
+
+	"github.com/ChimeraCoder/anaconda"
 )
 
 type Configuration struct {
@@ -13,16 +16,28 @@ type Configuration struct {
 	AccessSecrect  string `json:"access-secret"`
 }
 
+var config Configuration
+
 func init() {
 	file, _ := os.Open("conf.json")
 	decoder := json.NewDecoder(file)
-	configuration := Configuration{}
-	err := decoder.Decode(&configuration)
+	config = Configuration{}
+	err := decoder.Decode(&config)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	fmt.Println(configuration)
+	fmt.Println(config)
 }
 func main() {
+	anaconda.SetConsumerKey(config.ConsumerKey)
+	anaconda.SetConsumerSecret(config.ConsumerSecret)
+	api := anaconda.NewTwitterApi(config.AccessToken, config.AccessSecrect)
+	v := url.Values{}
+	v.Set("screen_name", "codingvelocity")
+	timeline, err := api.GetUserTimeline(v)
+	if err != nil {
+		panic(err)
+	}
 
+	fmt.Print(timeline)
 }
