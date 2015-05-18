@@ -31,7 +31,8 @@ func init() {
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	fmt.Println(config)
+
+	fmt.Printf("Config loaded with the following values %+v\n", &config)
 }
 
 func main() {

@@ -26,7 +26,7 @@ func TestAdvancedRegex(t *testing.T) {
 		t.Error("no matches found")
 	}
 
-	if len(m) == 1 {
-		t.Error("found too many matches!")
+	if len(m) != 2 {
+		t.Errorf("Found %v matches instead of 2", len(m))
 	}
 }
