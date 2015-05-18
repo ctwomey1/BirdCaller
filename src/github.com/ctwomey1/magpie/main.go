@@ -28,6 +28,7 @@ func init() {
 	}
 	fmt.Println(config)
 }
+
 func main() {
 	anaconda.SetConsumerKey(config.ConsumerKey)
 	anaconda.SetConsumerSecret(config.ConsumerSecret)
