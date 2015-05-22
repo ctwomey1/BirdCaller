@@ -8,7 +8,7 @@ import (
 )
 
 func SearchText(timeline []anaconda.Tweet, searchPattern string) []anaconda.Tweet {
-	c := make(chan anaconda.Tweet)
+	c := make(chan anaconda.Tweet, 10)
 	go func() {
 		regex, err := regexp.Compile(searchPattern)
 		if err != nil {
