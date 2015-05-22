@@ -1,4 +1,4 @@
-package main
+package processor
 
 import (
 	"log"
@@ -9,10 +9,11 @@ import (
 
 func SearchText(timeline []anaconda.Tweet, searchPattern string) []anaconda.Tweet {
 	c := make(chan anaconda.Tweet, 10)
+
 	go func() {
 		regex, err := regexp.Compile(searchPattern)
 		if err != nil {
-			log.Printf("Regular expression %v could not compile because %v", searchPattern, err)
+			log.Fatalf("Regular expression %v could not compile because %v", searchPattern, err)
 		} else {
 			for i := 0; i < len(timeline); i++ {
 				match := regex.MatchString(timeline[i].Text)

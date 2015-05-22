@@ -3,11 +3,11 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"log"
-	"net/url"
 	"os"
 	"strings"
+
+	"github.com/ctwomey1/BirdCaller/processor"
 
 	"github.com/ChimeraCoder/anaconda"
 )
@@ -47,13 +47,8 @@ func main() {
 	anaconda.SetConsumerKey(config.ConsumerKey)
 	anaconda.SetConsumerSecret(config.ConsumerSecret)
 	api := anaconda.NewTwitterApi(config.AccessToken, config.AccessSecrect)
-	v := url.Values{}
-	for _, screenName := range strings.Split(*screenNames, ",") {
-		v.Set("screen_name", screenName)
-		timeline, err := api.GetUserTimeline(v)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Println(SearchText(timeline, *searchCriteria))
-	}
+	bi := processor.BirdInterpreter{ScreenNames: strings.Split(*screenNames, ","), SearchCriteria: *searchCriteria, API: *api}
+
+	bi.Search()
+	bi.Save()
 }
