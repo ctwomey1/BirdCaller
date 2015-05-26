@@ -50,5 +50,6 @@ func main() {
 	bi := processor.BirdInterpreter{ScreenNames: strings.Split(*screenNames, ","), SearchCriteria: *searchCriteria, API: *api}
 
 	bi.Search()
+	bi.Parse()
 	bi.Save()
 }

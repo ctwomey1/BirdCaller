@@ -9,6 +9,7 @@ import (
 
 type processor interface {
 	Search()
+	Parse()
 	Save()
 }
 
@@ -30,6 +31,10 @@ func (bi *BirdInterpreter) Search() {
 		}
 
 	}
+}
+
+func (bi *BirdInterpreter) Parse() {
+	bi.Timeline = SearchText(bi.Timeline, bi.SearchCriteria)
 }
 
 func (bi *BirdInterpreter) Save() {
