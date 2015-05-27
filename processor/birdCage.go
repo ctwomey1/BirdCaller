@@ -3,7 +3,7 @@ package processor
 import (
 	"encoding/json"
 	"io/ioutil"
-	"os"
+	"log"
 
 	"github.com/ChimeraCoder/anaconda"
 )
@@ -16,9 +16,11 @@ type JSONFileCage struct {
 	Filename string
 }
 
-func (j *JSONFileCage) putInCage(timeline []anaconda.Tweet) {
+func (j *JSONFileCage) putInCage(timeline *[]anaconda.Tweet) {
 	data, err := json.Marshal(timeline)
 	if err == nil {
-		ioutil.WriteFile(j.Filename, data, os.FileMode.ModeAppend)
+		ioutil.WriteFile(j.Filename, data, 644)
+	} else {
+		log.Fatalf("failed to create file %v, error %v", j.Filename, err)
 	}
 }

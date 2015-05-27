@@ -1,7 +1,6 @@
 package processor
 
 import (
-	"log"
 	"net/url"
 
 	"github.com/ChimeraCoder/anaconda"
@@ -38,5 +37,5 @@ func (bi *BirdInterpreter) Parse() {
 }
 
 func (bi *BirdInterpreter) Save() {
-	log.Println(SearchText(bi.Timeline, bi.SearchCriteria))
+	//log.Println(SearchText(bi.Timeline, bi.SearchCriteria))
 }
