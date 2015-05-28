@@ -2,6 +2,7 @@ package processor
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -24,4 +25,11 @@ func (j *JSONFileCage) putInCage(timeline []anaconda.Tweet) error {
 		log.Fatalf("failed to create file %v, error %v", j.Filename, err)
 	}
 	return err
+}
+
+type ConsoleCage struct {
+}
+
+func (j *ConsoleCage) putInCage(timeline []anaconda.Tweet) error {
+	fmt.Printf("%+v", timeline)
 }
