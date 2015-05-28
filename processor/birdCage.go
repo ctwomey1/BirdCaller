@@ -32,4 +32,5 @@ type ConsoleCage struct {
 
 func (j *ConsoleCage) putInCage(timeline []anaconda.Tweet) error {
 	fmt.Printf("%+v", timeline)
+	return nil
 }
