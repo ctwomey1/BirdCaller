@@ -1,7 +1,6 @@
 package processor
 
 import (
-	"log"
 	"os"
 	"testing"
 
@@ -13,9 +12,11 @@ var birdsToCage []anaconda.Tweet = []anaconda.Tweet{anaconda.Tweet{Text: "today 
 func TestPuttingInCage(t *testing.T) {
 
 	filename := os.TempDir() + "/test.json"
-	log.Println("filename" + filename)
 	birdcage := JSONFileCage{Filename: filename}
-	birdcage.putInCage(&birdsToCage)
+	saveErr := birdcage.putInCage(birdsToCage)
+	if saveErr != nil {
+		t.Error(saveErr)
+	}
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		t.Error("file doesn't exist")
 

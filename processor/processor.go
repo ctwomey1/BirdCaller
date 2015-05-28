@@ -9,7 +9,6 @@ import (
 type processor interface {
 	Search()
 	Parse()
-	Save()
 }
 
 type BirdInterpreter struct {
@@ -17,6 +16,7 @@ type BirdInterpreter struct {
 	ScreenNames    []string
 	SearchCriteria string
 	Timeline       []anaconda.Tweet
+	Cage           BirdCage
 }
 
 func (bi *BirdInterpreter) Search() {
@@ -33,9 +33,9 @@ func (bi *BirdInterpreter) Search() {
 }
 
 func (bi *BirdInterpreter) Parse() {
-	bi.Timeline = SearchText(bi.Timeline, bi.SearchCriteria)
-}
-
-func (bi *BirdInterpreter) Save() {
-	//log.Println(SearchText(bi.Timeline, bi.SearchCriteria))
+	timeline := SearchText(bi.Timeline, bi.SearchCriteria)
+	err := bi.Cage.putInCage(timeline)
+	if err != nil {
+		panic(err)
+	}
 }
