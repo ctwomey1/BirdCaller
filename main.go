@@ -51,6 +51,8 @@ func main() {
 	var cage BirdCage
 	if *jsonOut {
 		cage = &JSONFileCage{Filename: *filename}
+	} else {
+		cage = &ConsoleCage{}
 	}
 	bi := BirdInterpreter{ScreenNames: strings.Split(*screenNames, ","), SearchCriteria: *searchCriteria, API: *api, Cage: cage}
 	bi.Search()
