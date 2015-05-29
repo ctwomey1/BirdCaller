@@ -1,4 +1,4 @@
-package processor
+package main
 
 import (
 	"encoding/json"
@@ -10,14 +10,14 @@ import (
 )
 
 type BirdCage interface {
-	putInCage(timeline []anaconda.Tweet) error
+	PutInCage(timeline []anaconda.Tweet) error
 }
 
 type JSONFileCage struct {
 	Filename string
 }
 
-func (j *JSONFileCage) putInCage(timeline []anaconda.Tweet) error {
+func (j *JSONFileCage) PutInCage(timeline []anaconda.Tweet) error {
 	data, err := json.Marshal(timeline)
 	if err == nil {
 		ioutil.WriteFile(j.Filename, data, 644)
@@ -30,7 +30,7 @@ func (j *JSONFileCage) putInCage(timeline []anaconda.Tweet) error {
 type ConsoleCage struct {
 }
 
-func (j *ConsoleCage) putInCage(timeline []anaconda.Tweet) error {
+func (j *ConsoleCage) PutInCage(timeline []anaconda.Tweet) error {
 	fmt.Printf("%+v", timeline)
 	return nil
 }

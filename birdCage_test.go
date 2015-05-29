@@ -1,4 +1,4 @@
-package processor
+package main
 
 import (
 	"os"
@@ -12,8 +12,8 @@ var birdsToCage []anaconda.Tweet = []anaconda.Tweet{anaconda.Tweet{Text: "today 
 func TestPuttingInCage(t *testing.T) {
 
 	filename := os.TempDir() + "/test.json"
-	birdcage := JSONFileCage{Filename: filename}
-	saveErr := birdcage.putInCage(birdsToCage)
+	var birdcage BirdCage = &JSONFileCage{Filename: filename}
+	saveErr := birdcage.PutInCage(birdsToCage)
 	if saveErr != nil {
 		t.Error(saveErr)
 	}

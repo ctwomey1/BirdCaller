@@ -1,4 +1,4 @@
-package processor
+package main
 
 import (
 	"net/url"
@@ -34,7 +34,7 @@ func (bi *BirdInterpreter) Search() {
 
 func (bi *BirdInterpreter) Parse() {
 	timeline := SearchText(bi.Timeline, bi.SearchCriteria)
-	err := bi.Cage.putInCage(timeline)
+	err := bi.Cage.PutInCage(timeline)
 	if err != nil {
 		panic(err)
 	}

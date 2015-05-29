@@ -7,8 +7,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ctwomey1/BirdCaller/processor"
-
 	"github.com/ChimeraCoder/anaconda"
 )
 
@@ -22,10 +20,15 @@ type Configuration struct {
 var config Configuration
 var searchCriteria *string
 var screenNames *string
+var jsonFile *string
+var filename *string
+var jsonOut *bool
 
 func init() {
 	searchCriteria = flag.String("search", "", "Search criteria to use when searching tweets")
 	screenNames = flag.String("screenNames", "", "Comma delimited list of twitter screen names to use when searching")
+	jsonOut = flag.Bool("json", false, "Wether or not ")
+	filename = flag.String("file", "timeline.json", "json file to save timeline to, defaults to timeline.json")
 	file, err := os.Open("conf.json")
 	if err != nil {
 		log.Fatalln("Error opening conf.json!", err)
@@ -41,15 +44,16 @@ func init() {
 }
 
 func main() {
-
 	flag.Parse()
-
 	anaconda.SetConsumerKey(config.ConsumerKey)
 	anaconda.SetConsumerSecret(config.ConsumerSecret)
 	api := anaconda.NewTwitterApi(config.AccessToken, config.AccessSecrect)
-	bi := processor.BirdInterpreter{ScreenNames: strings.Split(*screenNames, ","), SearchCriteria: *searchCriteria, API: *api}
-
+	var cage BirdCage
+	if *jsonOut {
+		cage = &JSONFileCage{Filename: *filename}
+	}
+	bi := BirdInterpreter{ScreenNames: strings.Split(*screenNames, ","), SearchCriteria: *searchCriteria, API: *api, Cage: cage}
 	bi.Search()
 	bi.Parse()
-	bi.Save()
+
 }
